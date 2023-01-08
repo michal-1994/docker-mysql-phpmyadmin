@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  mysql_name:
+    image: mysql:8.0
+    container_name: mysql_name
+    restart: always
+    volumes:
+      - volume:/var/lib/mysql
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: db_name
+    networks:
+      - network
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql_name
+    depends_on:
+      - mysql_name
+    ports:
+      - '8080:80'
+    networks:
+      - network
+
+networks:
+  network:
+volumes:
+  volume:
